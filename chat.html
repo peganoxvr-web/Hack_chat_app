@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Network Chat</title>
+    
+    <!-- Preload Fira Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chat.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="chat-page">
+
+    <!-- Top Status Bar -->
+    <div class="status-bar">
+        <span class="status-node">NODE-47</span>
+        <span class="status-divider">|</span>
+        <span class="status-secure">STATUS: SECURE</span>
+        <span class="status-divider">|</span>
+        <span class="status-latency">LATENCY: <span id="latency">9</span>ms</span>
+        <span class="status-divider">|</span>
+        <span class="status-user">USER: <span id="current-user">AGENT</span></span>
+    </div>
+
+    <!-- CRT Effects -->
+    <div class="crt-scanlines"></div>
+    <div class="crt-noise"></div>
+
+    <!-- Squid Game Logo (Large, Center Background) -->
+    <div class="logo-container-chat">
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <circle id="test" cx="40" cy="40" r="32"></circle>
+            </svg>
+        </div>
+        
+        <div class="loader triangle">
+            <svg viewBox="0 0 86 80">
+                <polygon points="43 8 79 72 7 72"></polygon>
+            </svg>
+        </div>
+        
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <rect x="8" y="8" width="64" height="64"></rect>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Main Chat Container -->
+    <div class="chat-container">
+        <!-- Sidebar - Friends List -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>NETWORK NODES</h2>
+                <div class="online-count">
+                    <span class="status-indicator online"></span>
+                    <span id="online-count">3</span> ONLINE
+                </div>
+            </div>
+
+            <div class="friends-list" id="friends-list">
+                <!-- Friends will be added by JavaScript -->
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="logout-btn">
+                    <i class="fas fa-power-off"></i> DISCONNECT
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-main">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-user-info">
+                    <div class="chat-avatar">
+                        <span id="active-user-initial">G</span>
+                    </div>
+                    <div class="chat-user-details">
+                        <h3 id="active-chat-name">GLOBAL NETWORK</h3>
+                        <p id="active-chat-status">
+                            <span class="status-indicator online"></span> Active
+                        </p>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button class="icon-btn" title="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="icon-btn" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div class="messages-container" id="messages-container">
+                <div class="messages-content" id="messages-content">
+                    <!-- Messages will be added by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="message-input-container">
+                <div class="message-input-wrapper">
+                    <button class="icon-btn" title="Attach File">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <input 
+                        type="text" 
+                        id="message-input" 
+                        placeholder="TRANSMIT MESSAGE..."
+                        autocomplete="off"
+                    >
+                    <button class="icon-btn" title="Emoji">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                    <button class="btn-send" id="send-btn">
+                        <i class="fas fa-paper-plane"></i> SEND
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal" id="search-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>SEARCH MESSAGES</h3>
+                <button class="modal-close" id="search-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="search-input" placeholder="Search in messages..." autocomplete="off">
+                <div id="search-results" class="search-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>SETTINGS</h3>
+                <button class="modal-close" id="settings-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="setting-notifications">
+                        <span>Enable Notifications</span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="setting-sound">
+                        <span>Sound Effects</span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="setting-timestamp">
+                        <span>Show Timestamps</span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label>Theme Color</label>
+                    <select id="setting-theme">
+                        <option value="green">Matrix Green</option>
+                        <option value="blue">Cyber Blue</option>
+                        <option value="red">Neon Red</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emoji Picker Modal -->
+    <div class="modal" id="emoji-modal">
+        <div class="modal-content emoji-picker">
+            <div class="modal-header">
+                <h3>SELECT EMOJI</h3>
+                <button class="modal-close" id="emoji-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="emoji-grid" id="emoji-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div class="modal image-preview-modal" id="image-preview-modal">
+        <button class="modal-close image-preview-close" id="image-preview-close">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="image-preview-img" src="" alt="Preview">
+    </div>
+
+    <!-- Hidden File Input -->
+    <input type="file" id="file-input" style="display: none;" accept="image/*,video/*,.pdf,.doc,.docx,.txt">
+
+    <script src="chat.js"></script>
+</body>
+</html>

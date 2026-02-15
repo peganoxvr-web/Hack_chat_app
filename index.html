@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Terminal Access</title>
+    
+    <!-- Preload Fira Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+</head>
+<body class="terminal-page">
+    <!-- Squid Game Logo -->
+    <div class="logo-container">
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <circle id="test" cx="40" cy="40" r="32"></circle>
+            </svg>
+        </div>
+        
+        <div class="loader triangle">
+            <svg viewBox="0 0 86 80">
+                <polygon points="43 8 79 72 7 72"></polygon>
+            </svg>
+        </div>
+        
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <rect x="8" y="8" width="64" height="64"></rect>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span class="status-node">NODE-47</span>
+        <span class="status-divider">|</span>
+        <span class="status-secure">STATUS: SECURE</span>
+        <span class="status-divider">|</span>
+        <span class="status-latency">LATENCY: <span id="latency">9</span>ms</span>
+    </div>
+
+    <!-- System Info Corner -->
+    <div class="system-info">
+        <div>SYS: LINUX-ARCH</div>
+        <div>IP: <span id="sys-ip">192.168.0.24</span></div>
+        <div>SEC-LVL: 7</div>
+    </div>
+
+    <!-- CRT Effect Layers -->
+    <div class="crt-scanlines"></div>
+    <div class="crt-noise"></div>
+
+    <!-- Terminal Container -->
+    <div class="terminal-container">
+        <div class="terminal-screen">
+            <div id="terminal-output"></div>
+            <div class="terminal-input-line">
+                <span id="input-prompt"></span>
+                <span id="input-display"></span>
+                <span class="cursor">█</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden input for capturing keyboard -->
+    <input type="text" id="hidden-input" autocomplete="off" style="position: absolute; opacity: 0; pointer-events: none;">
+
+    <script src="terminal.js"></script>
+</body>
+</html>

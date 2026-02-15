@@ -1,0 +1,664 @@
+.loader {
+  --path: #2F3545;
+  --dot: #5928ee;
+  --duration: 3s;
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+.loader:before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  display: block;
+  background: var(--dot);
+  top: 37px;
+  left: 19px;
+  transform: translate(-18px, -18px);
+  -webkit-animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+          animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+.loader svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.loader svg rect,
+.loader svg polygon,
+.loader svg circle {
+  fill: none;
+  stroke: var(--path);
+  stroke-width: 10px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.loader svg polygon {
+  stroke-dasharray: 145 76 145 76;
+  stroke-dashoffset: 0;
+  -webkit-animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+          animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+.loader svg rect {
+  stroke-dasharray: 192 64 192 64;
+  stroke-dashoffset: 0;
+  -webkit-animation: pathRect 3s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+          animation: pathRect 3s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+.loader svg circle {
+  stroke-dasharray: 150 50 150 50;
+  stroke-dashoffset: 75;
+  -webkit-animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+          animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+.loader.triangle {
+  width: 48px;
+}
+.loader.triangle:before {
+  left: 21px;
+  transform: translate(-10px, -18px);
+  -webkit-animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+          animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+
+@-webkit-keyframes pathTriangle {
+  33% {
+    stroke-dashoffset: 74;
+  }
+  66% {
+    stroke-dashoffset: 147;
+  }
+  100% {
+    stroke-dashoffset: 221;
+  }
+}
+
+@keyframes pathTriangle {
+  33% {
+    stroke-dashoffset: 74;
+  }
+  66% {
+    stroke-dashoffset: 147;
+  }
+  100% {
+    stroke-dashoffset: 221;
+  }
+}
+@-webkit-keyframes dotTriangle {
+  33% {
+    transform: translate(0, 0);
+  }
+  66% {
+    transform: translate(46px, -82px);
+  }
+  100% {
+    transform: translate(-46px, -82px);
+  }
+}
+@keyframes dotTriangle {
+  33% {
+    transform: translate(0, 0);
+  }
+  66% {
+    transform: translate(46px, -82px);
+  }
+  100% {
+    transform: translate(-46px, -82px);
+  }
+}
+@-webkit-keyframes pathRect {
+  25% {
+    stroke-dashoffset: 64;
+  }
+  50% {
+    stroke-dashoffset: 128;
+  }
+  75% {
+    stroke-dashoffset: 192;
+  }
+  100% {
+    stroke-dashoffset: 256;
+  }
+}
+@keyframes pathRect {
+  25% {
+    stroke-dashoffset: 64;
+  }
+  50% {
+    stroke-dashoffset: 128;
+  }
+  75% {
+    stroke-dashoffset: 192;
+  }
+  100% {
+    stroke-dashoffset: 256;
+  }
+}
+@-webkit-keyframes dotRect {
+  25% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(82px, -82px);
+  }
+  75% {
+    transform: translate(0, -164px);
+  }
+  100% {
+    transform: translate(-82px, -82px);
+  }
+}
+@keyframes dotRect {
+  25% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(82px, -82px);
+  }
+  75% {
+    transform: translate(0, -164px);
+  }
+  100% {
+    transform: translate(-82px, -82px);
+  }
+}
+@-webkit-keyframes pathCircle {
+  25% {
+    stroke-dashoffset: 125;
+  }
+  50% {
+    stroke-dashoffset: 175;
+  }
+  75% {
+    stroke-dashoffset: 225;
+  }
+  100% {
+    stroke-dashoffset: 275;
+  }
+}
+@keyframes pathCircle {
+  25% {
+    stroke-dashoffset: 125;
+  }
+  50% {
+    stroke-dashoffset: 175;
+  }
+  75% {
+    stroke-dashoffset: 225;
+  }
+  100% {
+    stroke-dashoffset: 275;
+  }
+}
+.loader {
+  display: inline-block;
+  margin: 0 16px;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+*:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: #F5F9FF;
+  margin: 0;
+  padding: 0;
+}
+
+/* =============================================
+   تنسيق شعار Squid Game في صفحة Terminal
+   محسوب بدقة من الكود الأصلي
+   ============================================= */
+
+.terminal-page .logo-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 60px;
+  align-items: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.terminal-page .logo-container .loader {
+  --path: #2F3545;
+  --dot: var(--primary-color, #00ff41);
+  --duration: 3s;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  margin: 0;
+}
+
+.terminal-page .logo-container .loader.triangle {
+  width: 220px;
+}
+
+/* الأشكال SVG */
+.terminal-page .loader svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.terminal-page .loader svg rect,
+.terminal-page .loader svg polygon,
+.terminal-page .loader svg circle {
+  fill: none;
+  stroke: var(--primary-color, #00ff41);
+  stroke-width: 10px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+
+/* النقاط المتحركة - محسوبة من الأصل
+   الأصل: 44px → الجديد: 200px
+   النسبة: 4.545 */
+
+.terminal-page .loader:before {
+  content: "";
+  width: 28px;  /* 6px × 4.545 = 27.27px */
+  height: 28px;
+  border-radius: 50%;
+  position: absolute;
+  display: block;
+  background: var(--dot);
+  top: 168px;    /* 37px × 4.545 = 168.18px */
+  left: 86px;    /* 19px × 4.545 = 86.36px */
+  transform: translate(-82px, -82px);  /* -18px × 4.545 = -81.81px */
+  box-shadow: 
+    0 0 40px var(--primary-color, #00ff41),
+    0 0 60px var(--primary-color, #00ff41);
+  animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+
+/* المثلث: 48px → 220px
+   النسبة: 4.583 */
+.terminal-page .loader.triangle:before {
+  left: 96px;   /* 21px × 4.583 = 96.25px */
+  transform: translate(-46px, -82px);  /* -10px × 4.583 = -45.83px, -18px × 4.545 = -81.81px */
+  animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+
+/* ============================================
+   NEURAL TERMINAL ACCESS - LEGENDARY MODE
+   ============================================ */
+
+:root {
+    /* Color Scheme - Matrix Green (Default) */
+    --primary-color: #00ff41;
+    --glitch-red: #ff0033;
+    --glitch-blue: #00f0ff;
+    --bg-black: #050505;
+    --text-dim: #00aa2e;
+    
+    /* Alternative Schemes (uncomment to use) */
+    /* Neon Purple */
+    /* --primary-color: #b800ff;
+    --glitch-red: #ff00ff;
+    --glitch-blue: #00ffff; */
+    
+    /* Retro Amber */
+    /* --primary-color: #ffb000;
+    --glitch-red: #ff6600;
+    --glitch-blue: #ff4400; */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-black);
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+    color: var(--primary-color);
+}
+
+/* ============================================
+   STATUS BAR
+   ============================================ */
+.status-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 35px;
+    background: rgba(0, 0, 0, 0.9);
+    border-bottom: 1px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 255, 65, 0.3);
+}
+
+.status-divider {
+    opacity: 0.5;
+}
+
+.status-latency {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+#latency {
+    display: inline-block;
+    min-width: 20px;
+    text-align: right;
+}
+
+/* ============================================
+   SYSTEM INFO CORNER
+   ============================================ */
+.system-info {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    font-size: 10px;
+    line-height: 1.6;
+    opacity: 0.6;
+    letter-spacing: 0.5px;
+    z-index: 100;
+}
+
+/* ============================================
+   CRT EFFECTS - DUAL LAYER SYSTEM
+   ============================================ */
+
+/* Layer 1: Scanlines (Static) */
+.crt-scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 50;
+}
+
+/* Layer 2: Moving Noise */
+.crt-noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 51;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    animation: noise 8s linear infinite;
+}
+
+@keyframes noise {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-5%, -5%); }
+    20% { transform: translate(-10%, 5%); }
+    30% { transform: translate(5%, -10%); }
+    40% { transform: translate(-5%, 15%); }
+    50% { transform: translate(-15%, 5%); }
+    60% { transform: translate(15%, 0); }
+    70% { transform: translate(0, 10%); }
+    80% { transform: translate(-10%, 10%); }
+    90% { transform: translate(10%, 5%); }
+}
+
+@keyframes screenFlicker {
+  0% { opacity: 1; }
+  98% { opacity: 1; }
+  99% { opacity: 0.97; }
+  100% { opacity: 1; }
+}
+
+/* ============================================
+   TERMINAL CONTAINER
+   ============================================ */
+.terminal-container {
+    box-shadow:
+    0 0 10px #00ff41
+    0 0 40px rgba(0,255,65,0.3),
+    inset 0 0 50px rgba(0,255,65,0.05);
+    animation: screenFlicker 3s infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px;
+    height: 70%;
+    max-height: 600px;
+    perspective: 1000px;
+}
+
+.terminal-screen {
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 5, 5, 0.95);
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 30px;
+    overflow-y: auto;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 65, 0.3),
+        0 0 40px rgba(0, 255, 65, 0.2),
+        inset 0 0 100px rgba(0, 255, 65, 0.05);
+    position: relative;
+}
+
+/* Scrollbar styling */
+.terminal-screen::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-screen::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.terminal-screen::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+/* ============================================
+   TERMINAL TEXT
+   ============================================ */
+#terminal-output {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.terminal-line {
+    margin: 2px 0;
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+.terminal-line.dim {
+    opacity: 0.7;
+    color: var(--text-dim);
+}
+
+.terminal-input-line {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+#input-prompt {
+    margin-right: 5px;
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+#input-display {
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+/* ============================================
+   CURSOR ANIMATION
+   ============================================ */
+.cursor {
+    display: inline-block;
+    margin-left: 2px;
+    animation: blink 800ms infinite;
+    text-shadow: 0 0 8px var(--primary-color);
+}
+
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+/* ============================================
+   MULTI-LEVEL GLITCH EFFECTS
+   ============================================ */
+
+/* Level 1: Subtle RGB Split (typing) */
+.glitch-level-1 {
+    animation: glitch-rgb-split 50ms 1;
+}
+
+@keyframes glitch-rgb-split {
+    0% {
+        text-shadow: 
+            0 0 5px var(--primary-color),
+            1px 0 0 var(--glitch-red),
+            -1px 0 0 var(--glitch-blue);
+    }
+    100% {
+        text-shadow: 0 0 5px var(--primary-color);
+    }
+}
+
+/* Level 2: Horizontal Distortion (error) */
+.glitch-level-2 {
+    animation: glitch-distortion 500ms 1;
+}
+
+@keyframes glitch-distortion {
+    0% { transform: translate(0); }
+    10% { transform: translate(-5px, 0) skew(2deg); filter: contrast(1.5); }
+    20% { transform: translate(5px, 0) skew(-2deg); }
+    30% { transform: translate(-3px, 0) skew(1deg); }
+    40% { transform: translate(3px, 0) skew(-1deg); }
+    50% { transform: translate(-2px, 0); }
+    60% { transform: translate(2px, 0); }
+    70% { transform: translate(-1px, 0); }
+    80% { transform: translate(1px, 0); }
+    90% { transform: translate(0); }
+    100% { transform: translate(0); filter: contrast(1); }
+}
+
+/* Level 3: Phosphor Burst (success) */
+.glitch-level-3 {
+    animation: phosphor-burst 300ms 1;
+}
+
+@keyframes phosphor-burst {
+    0% {
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+    }
+    50% {
+        box-shadow: 
+            0 0 80px rgba(0, 255, 65, 0.8),
+            0 0 120px rgba(0, 255, 65, 0.6);
+        filter: brightness(1.5);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        filter: brightness(1);
+    }
+}
+
+/* Screen shake effect */
+.screen-shake {
+    animation: shake 200ms 1;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translate(-50%, -50%); }
+    10%, 30%, 50%, 70%, 90% { transform: translate(-51%, -50%); }
+    20%, 40%, 60%, 80% { transform: translate(-49%, -50%); }
+}
+
+/* ============================================
+   LOADING BAR
+   ============================================ */
+.loading-bar {
+    font-family: 'Fira Code', monospace;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+/* ============================================
+   LOCKOUT WARNING
+   ============================================ */
+.lockout-warning {
+    color: var(--glitch-red);
+    font-weight: bold;
+    animation: warning-pulse 1s infinite;
+}
+
+@keyframes warning-pulse {
+    0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--glitch-red); }
+    50% { opacity: 0.7; text-shadow: 0 0 20px var(--glitch-red); }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    .terminal-container {
+        width: 95%;
+        height: 80%;
+    }
+    
+    .terminal-screen {
+        padding: 20px;
+        font-size: 12px;
+    }
+    
+    .status-bar {
+        font-size: 10px;
+        gap: 8px;
+    }
+    
+    .system-info {
+        font-size: 8px;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
