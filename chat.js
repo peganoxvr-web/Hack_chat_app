@@ -13,6 +13,7 @@ class NeuralChat {
         this.messages = {};
         this.messageSubscription = null;
         this.profileSubscription = null;
+        this.unreadMessages = {}; // Track unread messages per chat
         
         this.latency = {
             current: 9,
@@ -79,6 +80,7 @@ class NeuralChat {
         this.startLatencyController();
         this.setupRealtimeSubscriptions();
         this.setupInteractiveFeatures();
+        this.setupMobileSidebar();
         
         // Load and apply saved settings
         this.loadAndApplySettings();
@@ -490,6 +492,7 @@ class NeuralChat {
         
         const initial = user.username.charAt(0).toUpperCase();
         const lastSeen = user.status === 'online' ? 'Active now' : this.formatLastSeen(user.last_seen);
+        const unreadCount = this.unreadMessages[user.id] || 0;
         
         item.innerHTML = `
             <div class="friend-avatar">
@@ -497,7 +500,10 @@ class NeuralChat {
                 <span class="status-badge status-indicator ${user.status}"></span>
             </div>
             <div class="friend-info">
-                <div class="friend-name">${user.username.toUpperCase()}</div>
+                <div class="friend-name">
+                    ${user.username.toUpperCase()}
+                    ${unreadCount > 0 ? `<span class="unread-badge">${unreadCount}</span>` : ''}
+                </div>
                 <div class="friend-status">${lastSeen}</div>
             </div>
         `;
@@ -526,6 +532,9 @@ class NeuralChat {
     
     switchChat(user) {
         this.activeChat = user.id;
+        
+        // Mark messages as read for this chat
+        this.markAsRead(user.id);
         
         // Update active state
         document.querySelectorAll('.friend-item').forEach(item => {
@@ -666,10 +675,14 @@ class NeuralChat {
                     <span class="message-sender">${senderName.toUpperCase()}</span>
                     <span class="message-time">${time}</span>
                 </div>
-                <div class="message-bubble">${this.escapeHtml(message.content)}</div>
+                <div class="message-bubble"></div>
                 ${attachmentHTML}
             </div>
         `;
+        
+        // Set text using textContent to prevent parsing issues
+        const bubble = messageDiv.querySelector('.message-bubble');
+        if (bubble) bubble.textContent = message.content;
         
         this.messagesContainer.appendChild(messageDiv);
         this.scrollToBottom();
@@ -714,9 +727,16 @@ class NeuralChat {
                     if (fullMessage.chat_type === 'global' && this.activeChat === 'global') {
                         this.renderMessage(fullMessage);
                     } else if (fullMessage.chat_type === 'private') {
-                        if ((fullMessage.sender_id === this.currentUserId || fullMessage.receiver_id === this.currentUserId) &&
-                            (fullMessage.sender_id === this.activeChat || fullMessage.receiver_id === this.activeChat)) {
+                        const isCurrentChat = (fullMessage.sender_id === this.activeChat || fullMessage.receiver_id === this.activeChat);
+                        const isForMe = (fullMessage.sender_id === this.currentUserId || fullMessage.receiver_id === this.currentUserId);
+                        
+                        if (isForMe && isCurrentChat) {
                             this.renderMessage(fullMessage);
+                        } else if (isForMe && !isCurrentChat && fullMessage.sender_id !== this.currentUserId) {
+                            // Message is for me but in a different chat - increment unread count
+                            const senderId = fullMessage.sender_id;
+                            this.unreadMessages[senderId] = (this.unreadMessages[senderId] || 0) + 1;
+                            this.updateUnreadBadge(senderId);
                         }
                     }
                 }
@@ -733,6 +753,39 @@ class NeuralChat {
                 }
             )
             .subscribe();
+    }
+    
+    // ==================== NOTIFICATION HELPERS ====================
+    markAsRead(chatId) {
+        // Clear unread count for this chat
+        if (this.unreadMessages[chatId]) {
+            this.unreadMessages[chatId] = 0;
+            this.updateUnreadBadge(chatId);
+        }
+    }
+    
+    updateUnreadBadge(userId) {
+        // Find the friend item and update the badge
+        const friendItem = document.querySelector(`[data-user-id="${userId}"]`);
+        if (!friendItem) return;
+        
+        const friendName = friendItem.querySelector('.friend-name');
+        if (!friendName) return;
+        
+        // Remove existing badge
+        const existingBadge = friendName.querySelector('.unread-badge');
+        if (existingBadge) {
+            existingBadge.remove();
+        }
+        
+        // Add new badge if there are unread messages
+        const unreadCount = this.unreadMessages[userId] || 0;
+        if (unreadCount > 0) {
+            const badge = document.createElement('span');
+            badge.className = 'unread-badge';
+            badge.textContent = unreadCount;
+            friendName.appendChild(badge);
+        }
     }
     
     // ==================== HELPERS ====================
@@ -771,6 +824,41 @@ class NeuralChat {
         setInterval(() => {
             this.latency.target = 8 + Math.floor(Math.random() * 6);
         }, 3000);
+    }
+
+    // ==================== MOBILE SIDEBAR ====================
+    setupMobileSidebar() {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.querySelector('.sidebar');
+        
+        if (!menuBtn || !sidebar) return;
+        
+        // Create overlay backdrop
+        const overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
+        
+        // Toggle sidebar
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        });
+        
+        // Close on overlay click
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        });
+        
+        // Close sidebar when selecting a friend on mobile
+        sidebar.addEventListener('click', (e) => {
+            if (e.target.closest('.friend-item')) {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('mobile-open');
+                    overlay.classList.remove('active');
+                }
+            }
+        });
     }
 }
 

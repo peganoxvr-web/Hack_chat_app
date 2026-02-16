@@ -1,0 +1,376 @@
+/* ============================================
+   MODERN DARK THEME
+   Lightweight & Mobile-Friendly
+   ============================================ */
+
+:root {
+    /* Dark Mode Colors - Refined */
+    --primary-color: rgba(0, 132, 255, 0.9);
+    --primary-hover: #0066cc;
+    --secondary-color: #25D366;
+    --danger-color: #e74c3c;
+    --bg-main: linear-gradient(180deg, #1a1d21 0%, #14161a 100%);
+    --bg-secondary: #242529;
+    --bg-dark: #18191c;
+    --text-primary: #e4e6eb;
+    --text-secondary: #b0b3b8;
+    --text-dim: #8a8d91;
+    --border-color: #3a3b3c;
+    --message-received: #3a3b3c;
+    --message-sent: #0084ff;
+    --sidebar-bg: #242529;
+    --header-bg: #242529;
+}
+
+/* Remove heavy effects for performance */
+* {
+    box-sizing: border-box;
+}
+
+body.chat-page {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Hide CRT effects - too heavy */
+.crt-scanlines,
+.crt-noise,
+.logo-container-chat {
+    display: none !important;
+}
+
+/* Simplified status bar */
+.status-bar {
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==================== SIDEBAR ==================== */
+.sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    box-shadow: none;
+}
+
+.sidebar-header h2 {
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+.online-count {
+    color: var(--text-secondary);
+}
+
+.status-indicator.online {
+    background: var(--secondary-color);
+    animation: none; /* Remove heavy animation */
+}
+
+.friend-item {
+    border: none;
+    background: transparent;
+}
+
+.friend-item:hover {
+    background: var(--bg-secondary);
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.friend-item.active {
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--primary-color);
+    border-radius: 0;
+}
+
+.friend-avatar {
+    background: var(--primary-color);
+    box-shadow: none;
+}
+
+.friend-name {
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+.friend-status {
+    color: var(--text-secondary);
+}
+
+/* Simplified badge - lighter */
+.unread-badge {
+    background: var(--danger-color);
+    animation: none !important; /* Remove pulse */
+    box-shadow: none;
+    border: none;
+}
+
+.unread-badge::before {
+    display: none; /* Remove shimmer effect */
+}
+
+/* Logout button */
+.btn-logout {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+.btn-logout::before {
+    display: none;
+}
+
+.btn-logout:hover {
+    background: var(--bg-secondary);
+    border-color: var(--danger-color);
+    color: var(--danger-color);
+    box-shadow: none;
+    transform: none;
+}
+
+.btn-logout i {
+    filter: none;
+}
+
+/* ==================== CHAT MAIN ==================== */
+.chat-main {
+    background: var(--bg-secondary);
+}
+
+.chat-header {
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.chat-avatar {
+    background: var(--primary-color);
+    box-shadow: none;
+}
+
+.chat-user-details h3 {
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+.chat-user-details p {
+    color: var(--text-secondary);
+}
+
+/* Icon buttons - simplified */
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+.icon-btn::before {
+    display: none; /* Remove ripple effect */
+}
+
+.icon-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--primary-color);
+    box-shadow: none;
+    transform: none;
+}
+
+.icon-btn i {
+    filter: none;
+}
+
+/* ==================== MESSAGES ==================== */
+.messages-container {
+    background: var(--bg-secondary);
+}
+
+.message-bubble {
+    border: none;
+    box-shadow: none;
+    display: block;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.message.received .message-bubble {
+    background: var(--message-received);
+    color: var(--text-primary);
+}
+
+.message.sent .message-bubble {
+    background: var(--message-sent);
+    color: #ffffff;
+}
+
+.message-sed {
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+.message-time {
+    color: var(--text-dim);
+}
+
+.message.system .message-bubble {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+/* ==================== INPUT ==================== */
+#message-input {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+#message-input:focus {
+    background: var(--bg-main);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
+}
+
+/* Send button - simplified */
+.btn-send {
+    background: var(--primary-color);
+    border: none;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+
+.btn-send::before {
+    display: none; /* Remove ripple */
+}
+
+.btn-send:hover {
+    background: var(--primary-hover);
+    box-shadow: none;
+    transform: none;
+}
+
+.btn-send i {
+    filter: none;
+}
+
+/* ==================== MODALS ==================== */
+.modal {
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header h3 {
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+}
+
+.modal-close:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 35px;
+        height: calc(100vh - 35px);
+        z-index: 999;
+        transition: left 0.3s ease;
+    }
+    
+    .sidebar.mobile-open {
+        left: 0;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .chat-container {
+        flex-direction: column;
+    }
+    
+    .chat-main {
+        width: 100%;
+    }
+    
+    .status-bar {
+        height: 50px;
+        font-size: 14px;
+    }
+    
+    .message-bubble {
+        max-width: 85%;
+    }
+    
+    .icon-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .friend-item {
+        padding: 10px 8px;
+    }
+    
+    .friend-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    .chat-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    #message-input {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+}
+
+/* Remove all heavy animations */
+@keyframes slideDown {
+    from { opacity: 1; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 1; }
+    to { opacity: 1; }
+}
+
+@keyframes messageSlide {
+    from { opacity: 1; }
+    to { opacity: 1; }
+}
+
+@keyframes pulseBadge {
+    from { opacity: 1; }
+    to { opacity: 1; }
+}
+
+@keyframes shimmer {
+    from { opacity: 1; }
+    to { opacity: 1; }
+}

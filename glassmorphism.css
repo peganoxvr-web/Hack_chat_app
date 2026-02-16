@@ -1,0 +1,433 @@
+/* ============================================
+   GLASSMORPHISM REDESIGN
+   Modern Glass UI with Better Layout
+   ============================================ */
+
+/* ==================== MESSAGE INPUT - GLASSMORPHISM ==================== */
+.message-input-container {
+    position: fixed;
+    bottom: 0;
+    left: 240px;
+    right: 0;
+    padding: 12px 20px;
+    background: rgba(26, 29, 33, 0.65) !important;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.message-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Modern Rounded Input */
+#message-input {
+    flex: 1;
+    padding: 12px 18px !important;
+    background: rgba(58, 59, 60, 0.6) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 22px !important;
+    color: var(--text-primary) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px !important;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#message-input::placeholder {
+    color: rgba(228, 230, 235, 0.35);
+    font-weight: 400;
+}
+
+#message-input:focus {
+    background: rgba(58, 59, 60, 0.75) !important;
+    border-color: rgba(0, 132, 255, 0.4) !important;
+    box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.1);
+    transform: translateY(-0.5px);
+}
+
+/* ==================== MODERN BUTTONS ==================== */
+
+/* Icon Buttons - Circular Glass */
+.icon-btn {
+    width: 38px !important;
+    height: 38px !important;
+    background: rgba(58, 59, 60, 0.5) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 50% !important;
+    color: var(--text-secondary) !important;
+    font-size: 16px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+}
+
+.icon-btn:hover {
+    background: rgba(0, 132, 255, 0.15) !important;
+    border-color: rgba(0, 132, 255, 0.3) !important;
+    color: var(--primary-color) !important;
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 3px 10px rgba(0, 132, 255, 0.2);
+}
+
+.icon-btn:active {
+    transform: translateY(0) scale(0.95);
+}
+
+/* Send Button - Circular Glass Icon */
+.btn-send {
+    width: 42px !important;
+    height: 42px !important;
+    padding: 0 !important;
+    background: linear-gradient(135deg, rgba(0, 132, 255, 0.9) 0%, rgba(0, 168, 255, 0.9) 100%) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 50% !important;
+    color: #ffffff !important;
+    font-size: 16px !important;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 10px rgba(0, 132, 255, 0.25);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-send:hover {
+    background: linear-gradient(135deg, #0066cc 0%, #0084ff 100%) !important;
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 4px 16px rgba(0, 132, 255, 0.35);
+}
+
+.btn-send:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.btn-send i {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.btn-send:hover i {
+    transform: translateX(2px);
+}
+
+/* ==================== HEADER REDESIGN ==================== */
+.chat-header {
+    background: rgba(36, 37, 41, 0.8) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+    padding: 18px 25px !important;
+}
+
+.chat-actions {
+    gap: 10px !important;
+}
+
+/* Avatar with Glass Effect */
+.chat-avatar,
+.friend-avatar {
+    background: linear-gradient(135deg, #0084ff 0%, #00a8ff 100%) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 132, 255, 0.3) !important;
+}
+
+/* ==================== SIDEBAR IMPROVEMENTS ==================== */
+.sidebar {
+    background: rgba(36, 37, 41, 0.95) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.friend-item {
+    margin: 3px 8px;
+    padding: 8px !important;
+    border-radius: 10px !important;
+    transition: all 0.3s ease;
+}
+
+.friend-item:hover {
+    background: rgba(58, 59, 60, 0.4) !important;
+    transform: translateX(3px);
+}
+
+.friend-item.active {
+    background: rgba(0, 132, 255, 0.1) !important;
+    border: 1px solid rgba(0, 132, 255, 0.2);
+    border-left: 3px solid rgba(0, 132, 255, 0.6) !important;
+    box-shadow: 0 2px 8px rgba(0, 132, 255, 0.15);
+}
+
+/* ==================== MESSAGES AREA ==================== */
+.messages-container {
+    padding-bottom: 100px !important; /* Space for floating input */
+}
+
+.message-bubble {
+    border-radius: 18px !important;
+    padding: 12px 18px !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.message.received .message-bubble {
+    background: rgba(58, 59, 60, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.message.sent .message-bubble {
+    background: linear-gradient(135deg, #0084ff 0%, #00a8ff 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 132, 255, 0.3);
+}
+
+/* ==================== MODAL GLASS EFFECT ==================== */
+.modal-content {
+    background: rgba(26, 29, 33, 0.95) !important;
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+.modal {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* ==================== LOGOUT BUTTON ==================== */
+.btn-logout {
+    background: rgba(231, 76, 60, 0.12) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(231, 76, 60, 0.25) !important;
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: rgba(231, 76, 60, 0.2) !important;
+    border-color: rgba(231, 76, 60, 0.4) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(231, 76, 60, 0.2);
+}
+
+/* ==================== STATUS BAR ==================== */
+/* ==================== STATUS BAR ==================== */
+.status-bar {
+    background: rgba(36, 37, 41, 0.9) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15) !important;
+    font-weight: 500 !important;
+    padding: 8px 20px !important;
+}
+
+.status-divider {
+    margin: 0 16px !important;
+    opacity: 0.3 !important;
+}
+
+.status-latency {
+    color: #ffa726 !important;
+}
+
+.status-node,
+.status-secure,
+.status-user {
+    color: rgba(0, 132, 255, 0.85) !important;
+}
+
+/* ==================== SCROLLBAR STYLING ==================== */
+.messages-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 132, 255, 0.5);
+    border-radius: 3px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 132, 255, 0.7);
+}
+
+.friends-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.friends-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.friends-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+/* ==================== MOBILE MENU BUTTON ==================== */
+.mobile-menu-btn {
+    display: none !important;
+}
+
+/* Mobile overlay backdrop */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* ==================== RESPONSIVE MOBILE ==================== */
+@media (max-width: 768px) {
+    /* Hide status bar on mobile */
+    .status-bar {
+        display: none !important;
+    }
+    
+    /* Show mobile menu button */
+    .mobile-menu-btn {
+        display: flex !important;
+        width: 40px !important;
+        height: 40px !important;
+        margin-right: 8px;
+        flex-shrink: 0;
+    }
+    
+    /* Sidebar as drawer */
+    .sidebar {
+        position: fixed !important;
+        left: -240px;
+        top: 0 !important;
+        width: 240px !important;
+        height: 100vh !important;
+        z-index: 999;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .sidebar.mobile-open {
+        left: 0;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* Chat takes full width */
+    .chat-container {
+        flex-direction: column;
+    }
+    
+    .chat-main {
+        width: 100% !important;
+    }
+    
+    /* Input bar full width */
+    .message-input-container {
+        left: 0;
+        padding: 12px 15px;
+    }
+    
+    .message-input-wrapper {
+        gap: 8px;
+    }
+    
+    #message-input {
+        padding: 14px 20px !important;
+        font-size: 16px !important;
+    }
+    
+    .btn-send {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 15px !important;
+    }
+    
+    .icon-btn {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 15px !important;
+    }
+    
+    .message-bubble {
+        max-width: 85%;
+    }
+    
+    /* Chat header adjustments */
+    .chat-header {
+        padding: 12px 15px !important;
+    }
+    
+    .messages-container {
+        padding-top: 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #message-input {
+        padding: 12px 18px !important;
+    }
+    
+    .btn-send {
+        width: 42px !important;
+        height: 42px !important;
+        font-size: 15px !important;
+    }
+    
+    .icon-btn {
+        width: 38px !important;
+        height: 38px !important;
+    }
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.message-input-container {
+    animation: slideUp 0.3s ease-out;
+}
+
+/* Smooth transitions */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
