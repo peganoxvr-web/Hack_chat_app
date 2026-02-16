@@ -44,6 +44,10 @@ class NeuralTerminal {
         this.hiddenInput.addEventListener('input', (e) => this.handleInput(e));
         this.hiddenInput.addEventListener('keydown', (e) => this.handleKeydown(e));
         
+        // Mobile keyboard detection
+        this.hiddenInput.addEventListener('focus', () => document.body.classList.add('keyboard-open'));
+        this.hiddenInput.addEventListener('blur', () => document.body.classList.remove('keyboard-open'));
+        
         // Start latency controller
         this.startLatencyController();
         
@@ -632,3 +636,174 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+/* ============================================
+   MOBILE AUTHENTICATION MANAGER
+   Handles the simplified mobile-only login/register interface
+   ============================================ */
+class MobileAuthManager {
+    constructor() {
+        // Initialize Supabase only if window.supabaseClient is ready
+        this.supabase = window.supabaseClient; 
+        
+        this.statusEl = document.getElementById('mobile-status-msg');
+        
+        // Forms
+        this.loginForm = document.getElementById('mobile-login-form');
+        this.registerForm = document.getElementById('mobile-register-form');
+        
+        // Inputs
+        this.emailInput = document.getElementById('m-login-email');
+        this.passwordInput = document.getElementById('m-login-password');
+        
+        this.regUsernameInput = document.getElementById('m-reg-username');
+        this.regEmailInput = document.getElementById('m-reg-email');
+        this.regPasswordInput = document.getElementById('m-reg-password');
+        
+        if (this.loginForm) {
+            this.bindEvents();
+        }
+    }
+
+    bindEvents() {
+        console.log('Mobile Auth: Binding events');
+        
+        // Switch between forms
+        document.getElementById('m-link-register')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.switchForm('register');
+        });
+        
+        document.getElementById('m-link-login')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.switchForm('login');
+        });
+
+        // Handle Login
+        document.getElementById('m-btn-login')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.handleLogin();
+        });
+
+        // Handle Register
+        document.getElementById('m-btn-register')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.handleRegister();
+        });
+    }
+
+    switchForm(formName) {
+        if (this.statusEl) {
+            this.statusEl.textContent = '';
+            this.statusEl.className = 'mobile-status';
+        }
+        
+        if (formName === 'register') {
+            this.loginForm.classList.remove('active');
+            this.registerForm.classList.add('active');
+            // Hide login form
+            this.loginForm.style.display = 'none';
+            this.registerForm.style.display = 'flex';
+        } else {
+            this.registerForm.classList.remove('active');
+            this.loginForm.classList.add('active');
+            // Hide register form
+            this.registerForm.style.display = 'none';
+            this.loginForm.style.display = 'flex';
+        }
+    }
+
+    async handleLogin() {
+        const email = this.emailInput.value;
+        const password = this.passwordInput.value;
+
+        if (!email || !password) {
+            this.showStatus('Please enter email and password', 'error');
+            return;
+        }
+
+        this.showStatus('Authenticating...', 'success');
+
+        try {
+            const { data, error } = await this.supabase.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) throw error;
+
+            this.showStatus('Access Granted. Redirecting...', 'success');
+            
+            // Get username to redirect correctly
+            const { data: profile } = await this.supabase
+                .from('profiles')
+                .select('username')
+                .eq('id', data.user.id)
+                .single();
+
+            setTimeout(() => {
+                const username = profile ? profile.username : 'User';
+                window.location.href = `chat.html?user=${encodeURIComponent(username)}`;
+            }, 1000);
+
+        } catch (error) {
+            this.showStatus(error.message, 'error');
+        }
+    }
+
+    async handleRegister() {
+        const username = this.regUsernameInput.value;
+        const email = this.regEmailInput.value;
+        const password = this.regPasswordInput.value;
+
+        if (!username || !email || !password) {
+            this.showStatus('All fields are required', 'error');
+            return;
+        }
+
+        if (password.length < 6) {
+            this.showStatus('Password must be at least 6 chars', 'error');
+            return;
+        }
+
+        this.showStatus('Creating Account...', 'success');
+
+        try {
+            const { data, error } = await this.supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: { username }
+                }
+            });
+
+            if (error) throw error;
+
+            this.showStatus('Account Created! Signing in...', 'success');
+            
+            setTimeout(() => {
+                // Auto login might be needed if email confirm is off
+                window.location.href = `chat.html?user=${encodeURIComponent(username)}`;
+            }, 1500);
+
+        } catch (error) {
+            this.showStatus(error.message, 'error');
+        }
+    }
+
+    showStatus(msg, type) {
+        if (!this.statusEl) return;
+        this.statusEl.textContent = msg;
+        this.statusEl.className = `mobile-status ${type}`;
+    }
+}
+
+// Initialize Mobile Auth Logic
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if we are potentially on mobile based on elements existence
+    const mobileContainer = document.querySelector('.mobile-auth-wrapper');
+    if (mobileContainer) {
+        console.log('Mobile Auth Initialized');
+        window.mobileAuth = new MobileAuthManager();
+    }
+});

@@ -631,24 +631,169 @@ html, body {
 /* ============================================
    RESPONSIVE DESIGN
    ============================================ */
+/* ============================================
+   RESPONSIVE DESIGN (MOBILE-ONLY AUTH)
+   ============================================ */
+   
+/* Desktop Defaults */
+.mobile-auth-wrapper {
+    display: none !important;
+}
+
 @media (max-width: 768px) {
-    .terminal-container {
-        width: 95%;
-        height: 80%;
+    /* 1. Hide Desktop Elements */
+    .terminal-container,
+    .logo-container,
+    .status-bar,
+    .system-info,
+    .crt-scanlines, 
+    .crt-noise {
+        display: none !important;
     }
     
-    .terminal-screen {
+    body {
+        background: #050505;
+        overflow-y: auto !important; /* Allow scroll if needed on tiny screens */
         padding: 20px;
-        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 2. Show Mobile Auth */
+    .mobile-auth-wrapper {
+        display: flex !important;
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px;
+        z-index: 100;
+        animation: fadeIn 0.5s ease-out;
     }
     
-    .status-bar {
-        font-size: 10px;
+    /* 3. Mobile Styles */
+    .mobile-logo {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .mobile-logo h1 {
+        font-family: 'Fira Code', monospace;
+        color: var(--primary-color);
+        font-size: 24px;
+        letter-spacing: 2px;
+        margin-top: 15px;
+        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+    }
+    
+    .mobile-logo svg {
+        width: 60px;
+        height: 60px;
+        animation: spin 10s linear infinite;
+    }
+    
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    
+    .mobile-form {
+        display: none;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .mobile-form.active {
+        display: flex;
+        animation: slideUp 0.3s ease-out;
+    }
+    
+    .mobile-form h2 {
+        color: #fff;
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+    
+    .input-group {
+        display: flex;
+        flex-direction: column;
         gap: 8px;
     }
     
-    .system-info {
-        font-size: 8px;
+    .input-group label {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 14px;
+    }
+    
+    .input-group input {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 16px;
+        border-radius: 12px;
+        color: #fff;
+        font-size: 16px; /* Prevents auto-zoom on iOS */
+        outline: none;
+        transition: all 0.3s;
+    }
+    
+    .input-group input:focus {
+        border-color: var(--primary-color);
+        background: rgba(0, 255, 65, 0.05);
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+    }
+    
+    .mobile-btn {
+        background: var(--primary-color);
+        color: #000;
+        border: none;
+        padding: 16px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .mobile-btn:active {
+        transform: scale(0.98);
+    }
+    
+    .mobile-form-footer {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 20px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 14px;
+    }
+    
+    .text-btn {
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0;
+        font-size: 14px;
+    }
+    
+    .mobile-status {
+        margin-top: 20px;
+        text-align: center;
+        min-height: 20px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .mobile-status.error { color: #ff3333; }
+    .mobile-status.success { color: var(--primary-color); }
+    
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 }
 

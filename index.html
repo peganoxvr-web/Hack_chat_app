@@ -60,8 +60,8 @@
     <div class="crt-scanlines"></div>
     <div class="crt-noise"></div>
 
-    <!-- Terminal Container -->
-    <div class="terminal-container">
+    <!-- Terminal Container (Desktop Only) -->
+    <div class="terminal-container desktop-only">
         <div class="terminal-screen">
             <div id="terminal-output"></div>
             <div class="terminal-input-line">
@@ -69,6 +69,64 @@
                 <span id="input-display"></span>
                 <span class="cursor">█</span>
             </div>
+        </div>
+    </div>
+
+    <!-- Mobile Auth Interface (Mobile Only) -->
+    <div class="mobile-auth-wrapper mobile-only" style="display: none;">
+        <div class="mobile-auth-container">
+            <!-- Logo Area -->
+            <div class="mobile-logo">
+                <div class="loader-simple">
+                    <svg viewBox="0 0 80 80">
+                        <circle cx="40" cy="40" r="30" stroke="var(--primary-color)" stroke-width="4" fill="none"></circle>
+                        <circle cx="40" cy="40" r="15" fill="var(--primary-color)"></circle>
+                    </svg>
+                </div>
+                <h1>NEURAL NET</h1>
+            </div>
+
+            <!-- Login Form -->
+            <div id="mobile-login-form" class="mobile-form active">
+                <h2>Secure Login</h2>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="m-login-email" placeholder="Enter your email" autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="m-login-password" placeholder="Enter password" autocomplete="current-password">
+                </div>
+                <button id="m-btn-login" class="mobile-btn primary">LOGIN</button>
+                <div class="mobile-form-footer">
+                    <span>New User?</span>
+                    <button class="text-btn" id="m-link-register">Create Account</button>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="mobile-register-form" class="mobile-form">
+                <h2>Create Account</h2>
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="m-reg-username" placeholder="Choose a username" autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="m-reg-email" placeholder="Enter your email" autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="m-reg-password" placeholder="Create password" autocomplete="new-password">
+                </div>
+                <button id="m-btn-register" class="mobile-btn primary">REGISTER</button>
+                <div class="mobile-form-footer">
+                    <span>Already have an account?</span>
+                    <button class="text-btn" id="m-link-login">Login</button>
+                </div>
+            </div>
+
+            <div id="mobile-status-msg" class="mobile-status"></div>
         </div>
     </div>
 
