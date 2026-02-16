@@ -389,12 +389,17 @@ class NeuralChat {
     }
     
     async sendMessageWithAttachment(attachment) {
-        const caption = `📎 ${attachment.fileName}`;
+        // Send empty content for images so only the image shows
+        // For other files, keep the filename as a caption
+        let content = '';
+        if (attachment.fileType !== 'image') {
+            content = `📎 ${attachment.fileName}`;
+        }
         
         // Create message
         const messageData = {
             sender_id: this.currentUserId,
-            content: caption,
+            content: content,
             chat_type: this.activeChat === 'global' ? 'global' : 'private',
             receiver_id: this.activeChat === 'global' ? null : this.activeChat
         };
