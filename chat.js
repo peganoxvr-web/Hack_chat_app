@@ -940,10 +940,15 @@ class NeuralChat {
         
         if (!menuBtn || !sidebar) return;
         
-        // Create overlay backdrop
-        const overlay = document.createElement('div');
-        overlay.className = 'sidebar-overlay';
+        // Create overlay backdrop - Insert before sidebar to ensure correct z-index stacking
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    // Insert inside the container but before the sidebar so sidebar sits on top
+    if (sidebar.parentNode) {
+        sidebar.parentNode.insertBefore(overlay, sidebar);
+    } else {
         document.body.appendChild(overlay);
+    }
         
         // Toggle sidebar
         menuBtn.addEventListener('click', () => {

@@ -5,10 +5,21 @@
 
 
 /* ==================== GLOBAL CHAT STYLES ==================== */
+html, body {
+  height: 100%;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Main scroll handled inside containers */
+}
+
 .chat-page {
   background: var(--bg-black);
   font-family: "Fira Code", "Consolas", "Monaco", monospace;
   color: var(--primary-color);
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* Logo in Corner - Smaller Version */
