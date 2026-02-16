@@ -79,6 +79,7 @@ class NeuralChat {
         await this.loadMessages('global');
         this.startLatencyController();
         this.setupRealtimeSubscriptions();
+        this.setupPresence();
         this.setupInteractiveFeatures();
         this.setupMobileSidebar();
         
@@ -545,14 +546,32 @@ class NeuralChat {
         document.querySelectorAll('.friend-item').forEach(item => {
             item.classList.remove('active');
         });
-        const activeItem = document.querySelector(`[data-user-id="${user.id}"]`);
+        
+        const activeItem = document.querySelector(`.friend-item[data-user-id="${user.id}"]`);
         if (activeItem) activeItem.classList.add('active');
+        
+        // Get real-time status from DOM element instead of old user object
+        let currentStatus = user.status;
+        if (activeItem) {
+            const indicator = activeItem.querySelector('.status-indicator');
+            if (indicator) {
+                currentStatus = indicator.classList.contains('online') ? 'online' : 'offline';
+            }
+        }
         
         // Update chat header
         this.activeChatName.textContent = user.username.toUpperCase();
-        const statusText = user.status === 'online' ? ' Active' : ` ${user.status}`;
+        let statusText = 'Offline';
+        if (currentStatus === 'online') {
+            statusText = 'Active';
+        } else {
+            // If offline, try to show last seen if available in user object
+            // For now, simple Offline is fine
+            statusText = 'Offline';
+        }
+
         this.activeChatStatus.innerHTML = `
-            <span class="status-indicator ${user.status}"></span>${statusText}
+            <span class="status-indicator ${currentStatus}"></span> ${statusText}
         `;
         this.activeUserInitial.textContent = user.username.charAt(0).toUpperCase();
         
@@ -748,16 +767,99 @@ class NeuralChat {
             )
             .subscribe();
         
-        // Subscribe to profile updates (for status changes)
+        // ==================== REALTIME PRESENCE (ONLINE STATUS) ====================
+    } // This closes setupRealtimeSubscriptions
+
+    async setupPresence() {
+        // Create a channel for tracking presence
+        this.presenceChannel = this.supabase.channel('online-users', {
+            config: {
+                presence: {
+                    key: this.currentUserId,
+                },
+            },
+        });
+
+        this.presenceChannel
+            .on('presence', { event: 'sync' }, () => {
+                const newState = this.presenceChannel.presenceState();
+                console.log('Online users sync:', newState);
+                
+                // Get list of online user IDs
+                const onlineUserIds = Object.keys(newState);
+                
+                // Update UI for all friends
+                this.users.forEach(user => {
+                    const isOnline = onlineUserIds.includes(user.id);
+                    const status = isOnline ? 'online' : 'offline';
+                    this.updateUserStatusUI(user.id, status);
+                });
+                
+                // Update online count
+                this.updateOnlineCount(onlineUserIds.length);
+            })
+            .on('presence', { event: 'join' }, ({ key, newPresences }) => {
+                console.log('User joined:', key);
+                this.updateUserStatusUI(key, 'online');
+            })
+            .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
+                console.log('User left:', key);
+                this.updateUserStatusUI(key, 'offline');
+            })
+            .subscribe(async (status) => {
+                if (status === 'SUBSCRIBED') {
+                    // Track current user as online
+                    await this.presenceChannel.track({
+                        online_at: new Date().toISOString(),
+                        user_id: this.currentUserId,
+                        username: this.currentUser
+                    });
+                }
+            });
+            
+        // Still listen to profile updates for changes like username or avatar
         this.profileSubscription = this.supabase
             .channel('profiles')
             .on('postgres_changes',
                 { event: 'UPDATE', schema: 'public', table: 'profiles' },
                 (payload) => {
-                    this.loadUsers(); // Refresh user list
+                    // If update isn't just status, reload
+                    if (payload.new.username !== payload.old.username) {
+                        this.loadUsers();
+                    }
                 }
             )
             .subscribe();
+    }
+
+    updateUserStatusUI(userId, status) {
+        // Find friend item
+        const friendItem = document.querySelector(`.friend-item[data-user-id="${userId}"]`);
+        if (friendItem) {
+            const indicator = friendItem.querySelector('.status-indicator');
+            const statusText = friendItem.querySelector('.friend-status');
+            
+            if (indicator) {
+                indicator.className = `status-badge status-indicator ${status}`;
+            }
+            if (statusText) {
+                statusText.textContent = status === 'online' ? 'Active now' : 'Offline';
+                // If offline, maybe show last seen if available (from profile)
+                if (status === 'offline') {
+                    // Ideally fetch last_seen from DB, but for now 'Offline' is fine
+                }
+            }
+        }
+        
+        // Update active chat header if this user is open
+        if (this.activeChat === userId) {
+            const headerStatus = document.getElementById('active-chat-status');
+            if (headerStatus) {
+                headerStatus.innerHTML = `
+                    <span class="status-indicator ${status}"></span> ${status === 'online' ? 'Active' : 'Offline'}
+                `;
+            }
+        }
     }
     
     // ==================== NOTIFICATION HELPERS ====================
